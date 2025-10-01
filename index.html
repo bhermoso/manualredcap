@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 Manual Didáctico RedCap+IA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .navigation {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            background: #4facfe;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .module {
+            background: white;
+            margin-bottom: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: none;
+        }
+        
+        .module.active {
+            display: block;
+        }
+        
+        .module-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .module-icon {
+            font-size: 3em;
+            margin-right: 20px;
+        }
+        
+        .module-title h2 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+        
+        .module-content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #4facfe;
+        }
+        
+        .section h3 {
+            color: #4facfe;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .subsection {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e1e8ff;
+        }
+        
+        .subsection h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .bullet-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .bullet-list li {
+            margin-bottom: 8px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .bullet-list li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #4facfe;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            border: 1px solid #17a2b8;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: 1px solid #dc3545;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .step-container {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .step {
+            background: white;
+            border: 2px solid #e1e8ff;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background: #4facfe;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .duration {
+            display: inline-block;
+            background: #4facfe;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .module-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .module-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📖 Manual Didáctico RedCap+IA</h1>
+            <p>Guía completa para investigación en promoción de la salud</p>
+        </div>
+
+        <div class="navigation">
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showModule('modulo1')">Módulo 1: Introducción</button>
+                <button class="nav-btn" onclick="showModule('modulo2')">Módulo 2: Diseño</button>
+                <button class="nav-btn" onclick="showModule('modulo3')">Módulo 3: Recolección</button>
+                <button class="nav-btn" onclick="showModule('modulo4')">Módulo 4: Análisis e IA</button>
+            </div>
+        </div>
+
+        <!-- MÓDULO 1 -->
+        <div id="modulo1" class="module active">
+            <div class="module-header">
+                <div class="module-icon">🚀</div>
+                <div class="module-title">
+                    <h2>Módulo 1: Introducción a RedCap</h2>
+                    <div class="module-subtitle">Fundamentos y configuración inicial</div>
+                </div>
+            </div>
+            <div class="module-content">
+                
+                <div class="section">
+                    <h3>🎯 ¿Qué es RedCap?</h3>
+                    <p><strong>REDCap</strong> (Research Electronic Data Capture) es una plataforma web segura para construir y gestionar bases de datos y encuestas online para investigación.</p>
+                    
+                    <div class="subsection">
+                        <h4>Características principales</h4>
+                        <ul class="bullet-list">
+                            <li>Interfaz web intuitiva para diseño de formularios</li>
+                            <li>Validación de datos en tiempo real</li>
+                            <li>Exportación a múltiples formatos estadísticos</li>
+                            <li>Cumplimiento con normativas HIPAA y 21 CFR Part 11</li>
+                            <li>Sistema de permisos granular</li>
+                            <li>Auditoría completa de cambios</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box">
+                        <strong>💡 Ventaja clave:</strong> RedCap elimina la necesidad de programación para crear instrumentos de investigación robustos y seguros.
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🏥 Aplicaciones en Promoción de la Salud</h3>
+                    
+                    <div class="subsection">
+                        <h4>Tipos de estudios compatibles</h4>
+                        <ul class="bullet-list">
+                            <li>Encuestas poblacionales de hábitos de vida</li>
+                            <li>Estudios longitudinales de seguimiento</li>
+                            <li>Evaluaciones de intervenciones comunitarias</li>
+                            <li>Registros epidemiológicos</li>
+                            <li>Estudios de calidad de vida relacionada con la salud</li>
+                            <li>Análisis de determinantes sociales de la salud</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>📊 Caso de uso:</strong> Una universidad quiere evaluar los hábitos de vida saludable de sus estudiantes para diseñar programas de bienestar estudiantil.
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>⚙️ Configuración inicial del proyecto</h3>
+                    
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Acceso a la plataforma</h4>
+                                <ul class="bullet-list">
+                                    <li>Solicitar acceso institucional a RedCap</li>
+                                    <li>Configurar autenticación de dos factores</li>
+                                    <li>Familiarizarse con el entorno de trabajo</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Crear nuevo proyecto</h4>
+                                <ul class="bullet-list">
+                                    <li>Definir título descriptivo del proyecto</li>
+                                    <li>Establecer propósito del proyecto</li>
+                                    <li>Configurar tipo de proyecto (longitudinal/transversal)</li>
+                                    <li>Seleccionar plantilla base si existe</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Configuraciones de seguridad</h4>
+                                <ul class="bullet-list">
+                                    <li>Definir nivel de identificación de participantes</li>
+                                    <li>Configurar backup automático</li>
+                                    <li>Establecer políticas de retención de datos</li>
+                                    <li>Configurar notificaciones de seguridad</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>👥 Gestión de usuarios y permisos</h3>
+                    
+                    <div class="subsection">
+                        <h4>Roles típicos en investigación en salud</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Investigador Principal:</strong> Control total del proyecto</li>
+                            <li><strong>Coordinador de estudio:</strong> Gestión de datos y participantes</li>
+                            <li><strong>Recolector de datos:</strong> Solo entrada de datos</li>
+                            <li><strong>Analista:</strong> Solo exportación y análisis</li>
+                            <li><strong>Monitor:</strong> Solo visualización, sin modificación</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Importante:</strong> Seguir el principio de menor privilegio - dar solo los permisos mínimos necesarios para cada rol.
+                    </div>
+                </div>
+
+                <div class="duration">⏱️ Duración estimada: 2-3 horas</div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 2 -->
+        <div id="modulo2" class="module">
+            <div class="module-header" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <div class="module-icon">📋</div>
+                <div class="module-title">
+                    <h2>Módulo 2: Diseño de instrumentos</h2>
+                    <div class="module-subtitle">Creación de formularios y encuestas</div>
+                </div>
+            </div>
+            <div class="module-content">
+                
+                <div class="section">
+                    <h3>📝 Diseño del diccionario de datos</h3>
+                    
+                    <div class="subsection">
+                        <h4>Estructura básica de variables</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Variable Name:</strong> Identificador único (sin espacios, alfanumérico)</li>
+                            <li><strong>Form Name:</strong> Agrupación lógica de variables</li>
+                            <li><strong>Field Type:</strong> Tipo de campo (texto, numérico, opción múltiple, etc.)</li>
+                            <li><strong>Field Label:</strong> Pregunta que verá el participante</li>
+                            <li><strong>Choices:</strong> Opciones de respuesta para campos categóricos</li>
+                            <li><strong>Validation:</strong> Reglas de validación de entrada</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+Ejemplo de variable bien estructurada:
+Variable Name: edad_participante
+Field Type: text
+Field Label: ¿Cuál es tu edad en años cumplidos?
+Validation: number, min=16, max=99
+Required: yes
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🎛️ Tipos de campos y su aplicación</h3>
+                    
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">📊</div>
+                            <div class="step-content">
+                                <h4>Campos numéricos y de texto</h4>
+                                <ul class="bullet-list">
+                                    <li><strong>Text:</strong> Respuestas abiertas cortas (nombre, comentarios)</li>
+                                    <li><strong>Notes:</strong> Respuestas largas con formato</li>
+                                    <li><strong>Number:</strong> Valores numéricos (edad, peso, ingresos)</li>
+                                    <li><strong>Date/Time:</strong> Fechas específicas o rangos temporales</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">🎯</div>
+                            <div class="step-content">
+                                <h4>Campos de selección</h4>
+                                <ul class="bullet-list">
+                                    <li><strong>Radio:</strong> Una opción entre varias (sexo, estado civil)</li>
+                                    <li><strong>Dropdown:</strong> Lista desplegable para muchas opciones</li>
+                                    <li><strong>Checkbox:</strong> Múltiples selecciones posibles</li>
+                                    <li><strong>Yes/No:</strong> Respuestas binarias simples</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">📏</div>
+                            <div class="step-content">
+                                <h4>Escalas y mediciones</h4>
+                                <ul class="bullet-list">
+                                    <li><strong>Slider:</strong> Escalas visuales continuas (0-10)</li>
+                                    <li><strong>Likert:</strong> Escalas de acuerdo/desacuerdo</li>
+                                    <li><strong>VAS:</strong> Escalas visuales analógicas para síntomas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🔧 Validaciones avanzadas</h3>
+                    
+                    <div class="subsection">
+                        <h4>Tipos de validación disponibles</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Rangos numéricos:</strong> min=valor, max=valor</li>
+                            <li><strong>Patrones de texto:</strong> email, phone, postal_code</li>
+                            <li><strong>Longitud:</strong> min_length=X, max_length=Y</li>
+                            <li><strong>Fechas:</strong> date_mdy, datetime_seconds</li>
+                            <li><strong>Expresiones regulares:</strong> Patrones personalizados</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box">
+                        <strong>🎯 Ejemplo práctico:</strong> Para validar un IMC calculado automáticamente:<br>
+                        <code>if([peso] > 0 and [altura] > 0, round([peso]/([altura]*[altura]), 2), "")</code>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🌊 Lógica condicional (Branching Logic)</h3>
+                    
+                    <div class="subsection">
+                        <h4>Sintaxis básica</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Igualdad:</strong> [variable] = "valor"</li>
+                            <li><strong>Comparación:</strong> [edad] >= 18</li>
+                            <li><strong>Múltiples condiciones:</strong> [sexo] = "1" and [edad] >= 21</li>
+                            <li><strong>Opciones múltiples:</strong> [factores_riesgo(diabetes)] = "1"</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Mostrar campos según respuestas previas</h4>
+                                <div class="code-block">
+Ejemplo: Mostrar preguntas sobre tabaco solo a fumadores
+Branching Logic: [fuma_actualmente] = "1"
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Cálculos automáticos</h4>
+                                <div class="code-block">
+Ejemplo: Calcular puntuación total de escala
+if([item1] <> "" and [item2] <> "", [item1] + [item2], "")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🎨 Personalización de formularios</h3>
+                    
+                    <div class="subsection">
+                        <h4>Elementos de diseño</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Section Headers:</strong> Divisores visuales entre secciones</li>
+                            <li><strong>Descriptive Text:</strong> Instrucciones y explicaciones</li>
+                            <li><strong>Field Notes:</strong> Ayuda contextual para cada campo</li>
+                            <li><strong>Matrix Groups:</strong> Preguntas en formato tabla</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Buenas prácticas de diseño:</strong>
+                        <ul class="bullet-list">
+                            <li>Usar lenguaje claro y comprensible</li>
+                            <li>Agrupar preguntas relacionadas</li>
+                            <li>Incluir opciones "No sabe/No responde"</li>
+                            <li>Probar el formulario antes del lanzamiento</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="duration">⏱️ Duración estimada: 4-5 horas</div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 3 -->
+        <div id="modulo3" class="module">
+            <div class="module-header" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                <div class="module-icon">📊</div>
+                <div class="module-title">
+                    <h2>Módulo 3: Recolección y gestión de datos</h2>
+                    <div class="module-subtitle">Administración eficiente de la información</div>
+                </div>
+            </div>
+            <div class="module-content">
+                
+                <div class="section">
+                    <h3>📬 Métodos de recolección de datos</h3>
+                    
+                    <div class="subsection">
+                        <h4>Tipos de encuestas</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Encuesta pública:</strong> Acceso libre con URL pública</li>
+                            <li><strong>Encuesta con código:</strong> Requiere código de acceso</li>
+                            <li><strong>Enlaces únicos:</strong> Un enlace por participante</li>
+                            <li><strong>Modo offline:</strong> Para uso sin conexión a internet</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">🌐</div>
+                            <div class="step-content">
+                                <h4>Configurar encuesta pública</h4>
+                                <ul class="bullet-list">
+                                    <li>Activar "Allow 'Save & Return Later'"</li>
+                                    <li>Configurar mensaje de bienvenida</li>
+                                    <li>Personalizar página de agradecimiento</li>
+                                    <li>Establecer fecha límite de respuesta</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">🔐</div>
+                            <div class="step-content">
+                                <h4>Gestión de participantes individuales</h4>
+                                <ul class="bullet-list">
+                                    <li>Crear lista de contactos</li>
+                                    <li>Generar enlaces personalizados</li>
+                                    <li>Programar envío de invitaciones</li>
+                                    <li>Configurar recordatorios automáticos</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>👥 Gestión de participantes</h3>
+                    
+                    <div class="subsection">
+                        <h4>Base de datos de contactos</h4>
+                        <ul class="bullet-list">
+                            <li>Importar desde archivos CSV/Excel</li>
+                            <li>Validar direcciones de email</li>
+                            <li>Gestionar categorías de participantes</li>
+                            <li>Mantener registro de comunicaciones</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box">
+                        <strong>📋 Formato requerido para importación:</strong><br>
+                        Columnas mínimas: email, first_name, last_name<br>
+                        Opcional: identifier, phone, institution
+                    </div>
+
+                    <div class="subsection">
+                        <h4>Estrategias de seguimiento</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Invitación inicial:</strong> Mensaje personalizado y claro</li>
+                            <li><strong>Primer recordatorio:</strong> A los 3-5 días</li>
+                            <li><strong>Segundo recordatorio:</strong> A la semana</li>
+                            <li><strong>Recordatorio final:</strong> 1-2 días antes del cierre</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>📈 Monitoreo del progreso</h3>
+                    
+                    <div class="subsection">
+                        <h4>Métricas clave a seguir</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Tasa de respuesta:</strong> % de invitados que completan</li>
+                            <li><strong>Tasa de abandono:</strong> % que inician pero no terminan</li>
+                            <li><strong>Tiempo promedio:</strong> Duración de completar encuesta</li>
+                            <li><strong>Patrones temporales:</strong> Horarios de mayor participación</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">📊</div>
+                            <div class="step-content">
+                                <h4>Dashboard de seguimiento</h4>
+                                <ul class="bullet-list">
+                                    <li>Revisar estadísticas diarias</li>
+                                    <li>Identificar patrones de no respuesta</li>
+                                    <li>Ajustar estrategia según resultados</li>
+                                    <li>Documentar decisiones de seguimiento</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🎯 Control de calidad de datos</h3>
+                    
+                    <div class="subsection">
+                        <h4>Identificación de problemas comunes</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Datos faltantes:</strong> Campos obligatorios sin completar</li>
+                            <li><strong>Valores atípicos:</strong> Respuestas fuera de rangos esperados</li>
+                            <li><strong>Inconsistencias:</strong> Respuestas contradictorias</li>
+                            <li><strong>Patrones sospechosos:</strong> Respuestas repetitivas o aleatorias</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h4>Herramientas de calidad en RedCap</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Data Quality Rules:</strong> Reglas automáticas de validación</li>
+                            <li><strong>Missing Data Report:</strong> Reporte de campos vacíos</li>
+                            <li><strong>Data Resolution Workflow:</strong> Gestión de queries</li>
+                            <li><strong>Logging:</strong> Auditoría de todos los cambios</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Protocolo de limpieza:</strong> Establecer procedimientos claros para resolver inconsistencias sin introducir sesgos en los datos.
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🔒 Consideraciones éticas y de privacidad</h3>
+                    
+                    <div class="subsection">
+                        <h4>Protección de datos personales</h4>
+                        <ul class="bullet-list">
+                            <li>Minimizar recolección de datos identificadores</li>
+                            <li>Implementar anonimización cuando sea posible</li>
+                            <li>Configurar retención automática de datos</li>
+                            <li>Establecer controles de acceso granulares</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>📋 Consentimiento informado:</strong> Incluir información clara sobre el uso de datos, derechos del participante y forma de contacto del investigador.
+                    </div>
+                </div>
+
+                <div class="duration">⏱️ Duración estimada: 3-4 horas</div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 4 -->
+        <div id="modulo4" class="module">
+            <div class="module-header" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                <div class="module-icon">🧠</div>
+                <div class="module-title">
+                    <h2>Módulo 4: Análisis e integración con IA</h2>
+                    <div class="module-subtitle">Potenciando el análisis con inteligencia artificial</div>
+                </div>
+            </div>
+            <div class="module-content">
+                
+                <div class="section">
+                    <h3>📤 Exportación y preparación de datos</h3>
+                    
+                    <div class="subsection">
+                        <h4>Formatos de exportación disponibles</h4>
+                        <ul class="bullet-list">
+                            <li><strong>CSV/Excel:</strong> Para análisis en hojas de cálculo</li>
+                            <li><strong>SPSS:</strong> Archivo .sav con etiquetas y formato</li>
+                            <li><strong>SAS:</strong> Archivos .sas7bdat nativos</li>
+                            <li><strong>R/Stata:</strong> Formatos estadísticos especializados</li>
+                            <li><strong>XML:</strong> Estructura de datos completa</li>
+                            <li><strong>PDF:</strong> Reportes visuales y codebooks</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Configurar exportación</h4>
+                                <ul class="bullet-list">
+                                    <li>Seleccionar campos específicos o todos</li>
+                                    <li>Filtrar por fechas o criterios</li>
+                                    <li>Incluir/excluir datos de prueba</li>
+                                    <li>Configurar formato de etiquetas</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Preparación para análisis</h4>
+                                <ul class="bullet-list">
+                                    <li>Verificar completitud de datos</li>
+                                    <li>Codificar variables categóricas</li>
+                                    <li>Crear variables derivadas</li>
+                                    <li>Documentar decisiones de limpieza</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <strong>💡 API de RedCap:</strong> Para automatizar exportaciones, usa la API REST que permite integración directa con herramientas de IA y análisis.
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🤖 Integración con herramientas de IA</h3>
+                    
+                    <div class="subsection">
+                        <h4>Análisis automático de patrones</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Clustering:</strong> Identificar grupos de participantes similares</li>
+                            <li><strong>Análisis de sentimientos:</strong> Evaluar respuestas abiertas</li>
+                            <li><strong>Detección de anomalías:</strong> Identificar respuestas atípicas</li>
+                            <li><strong>Análisis de redes:</strong> Relaciones entre variables</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h4>Herramientas de IA recomendadas</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Python + Pandas/Scikit-learn:</strong> Análisis estadístico avanzado</li>
+                            <li><strong>R + Tidyverse:</strong> Análisis epidemiológico especializado</li>
+                            <li><strong>Tableau/Power BI:</strong> Visualizaciones inteligentes</li>
+                            <li><strong>GPT/Claude:</strong> Análisis de texto y generación de insights</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">🔍</div>
+                            <div class="step-content">
+                                <h4>Análisis predictivo en salud</h4>
+                                <ul class="bullet-list">
+                                    <li>Identificar factores de riesgo principales</li>
+                                    <li>Predecir adherencia a intervenciones</li>
+                                    <li>Modelar progresión de comportamientos</li>
+                                    <li>Personalizar recomendaciones</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">📊</div>
+                            <div class="step-content">
+                                <h4>Ejemplo: Análisis de hábitos saludables</h4>
+                                <div class="code-block">
+# Clustering de estudiantes por hábitos
+from sklearn.cluster import KMeans
+import pandas as pd
+
+# Cargar datos de RedCap
+data = pd.read_csv('encuesta_ugr.csv')
+
+# Variables de hábitos
+habitos = ['ejercicio_semanal', 'horas_sueno', 
+          'frutas_verduras', 'estres_nivel']
+
+# Clustering
+kmeans = KMeans(n_clusters=3)
+grupos = kmeans.fit_predict(data[habitos])
+
+# Etiquetar grupos
+data['grupo_habitos'] = grupos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>📈 Dashboards y reportes automáticos</h3>
+                    
+                    <div class="subsection">
+                        <h4>Componentes de un dashboard efectivo</h4>
+                        <ul class="bullet-list">
+                            <li><strong>KPIs principales:</strong> Métricas clave de salud poblacional</li>
+                            <li><strong>Tendencias temporales:</strong> Evolución de indicadores</li>
+                            <li><strong>Comparaciones:</strong> Benchmarks y grupos control</li>
+                            <li><strong>Alertas:</strong> Indicadores de riesgo automáticos</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h4>Automatización de reportes</h4>
+                        <ul class="bullet-list">
+                            <li>Conexión directa con API de RedCap</li>
+                            <li>Actualización automática de datos</li>
+                            <li>Generación programada de informes</li>
+                            <li>Distribución automática a stakeholders</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>🎯 Dashboard para promoción de salud universitaria:</strong>
+                        <ul class="bullet-list">
+                            <li>Índice de bienestar estudiantil</li>
+                            <li>Distribución de factores de riesgo</li>
+                            <li>Efectividad de intervenciones</li>
+                            <li>Comparación por facultades/carreras</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🎯 Casos de uso específicos en promoción de salud</h3>
+                    
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">🏥</div>
+                            <div class="step-content">
+                                <h4>Identificación de grupos de riesgo</h4>
+                                <ul class="bullet-list">
+                                    <li>Algoritmos de machine learning para segmentación</li>
+                                    <li>Puntuaciones de riesgo personalizadas</li>
+                                    <li>Intervenciones dirigidas automáticas</li>
+                                    <li>Seguimiento de efectividad</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">💡</div>
+                            <div class="step-content">
+                                <h4>Recomendaciones personalizadas</h4>
+                                <ul class="bullet-list">
+                                    <li>Sistemas de recomendación basados en perfil</li>
+                                    <li>Chatbots de salud integrados</li>
+                                    <li>Nudges comportamentales automáticos</li>
+                                    <li>Adaptación según progreso individual</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">📱</div>
+                            <div class="step-content">
+                                <h4>Monitoreo en tiempo real</h4>
+                                <ul class="bullet-list">
+                                    <li>Integración con wearables y apps</li>
+                                    <li>Alertas automáticas de salud</li>
+                                    <li>Detección temprana de problemas</li>
+                                    <li>Respuesta adaptativa a cambios</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🔮 Análisis predictivo avanzado</h3>
+                    
+                    <div class="subsection">
+                        <h4>Modelos predictivos en salud poblacional</h4>
+                        <ul class="bullet-list">
+                            <li><strong>Regresión logística:</strong> Predicción de resultados binarios</li>
+                            <li><strong>Random Forest:</strong> Identificación de factores importantes</li>
+                            <li><strong>Redes neuronales:</strong> Patrones complejos no lineales</li>
+                            <li><strong>Análisis de supervivencia:</strong> Tiempo hasta evento</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box">
+                        <strong>📊 Ejemplo práctico:</strong> Predecir qué estudiantes tienen mayor probabilidad de desarrollar hábitos saludables sostenibles basándose en factores iniciales de la encuesta.
+                    </div>
+
+                    <div class="subsection">
+                        <h4>Validación y evaluación de modelos</h4>
+                        <ul class="bullet-list">
+                            <li>Validación cruzada para robustez</li>
+                            <li>Métricas de precisión y recall</li>
+                            <li>Análisis de sesgo y equidad</li>
+                            <li>Interpretabilidad de resultados</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🚀 Implementación y escalabilidad</h3>
+                    
+                    <div class="subsection">
+                        <h4>Arquitectura del sistema</h4>
+                        <ul class="bullet-list">
+                            <li><strong>ETL automatizado:</strong> Extracción, transformación y carga</li>
+                            <li><strong>Pipeline de ML:</strong> Entrenamiento y despliegue automático</li>
+                            <li><strong>API de predicciones:</strong> Integración en tiempo real</li>
+                            <li><strong>Monitoreo de performance:</strong> Drift detection y reentrenamiento</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Consideraciones éticas en IA:</strong>
+                        <ul class="bullet-list">
+                            <li>Transparencia en algoritmos utilizados</li>
+                            <li>Explicabilidad de decisiones automáticas</li>
+                            <li>Protección de datos sensibles</li>
+                            <li>Evitar sesgos discriminatorios</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>📚 Recursos y herramientas complementarias</h3>
+                    
+                    <div class="subsection">
+                        <h4>Ecosistema RedCap+IA recomendado</h4>
+                        <ul class="bullet-list">
+                            <li><strong>REDCapTidieR (R):</strong> Limpieza automática de datos</li>
+                            <li><strong>PyCap (Python):</strong> API client para automatización</li>
+                            <li><strong>Jupyter Notebooks:</strong> Análisis reproducible</li>
+                            <li><strong>Git/GitHub:</strong> Control de versiones de código</li>
+                            <li><strong>Docker:</strong> Ambientes reproducibles</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>🎓 Proyecto final sugerido:</strong> Crear un pipeline completo desde RedCap hasta dashboard automatizado, incluyendo modelo predictivo y sistema de recomendaciones para tu área de investigación.
+                    </div>
+                </div>
+
+                <div class="duration">⏱️ Duración estimada: 4-5 horas</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>🎓 Certificación RedCap+IA</h3>
+            <p>
+                Al completar todos los módulos, habrás adquirido las competencias necesarias para diseñar, 
+                implementar y analizar estudios de investigación en promoción de la salud utilizando RedCap 
+                potenciado con herramientas de inteligencia artificial. Este conocimiento te permitirá 
+                crear instrumentos robustos, recopilar datos de calidad y generar insights valiosos 
+                para mejorar la salud de las poblaciones.
+            </p>
+            
+            <div style="margin-top: 20px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                <h4>📋 Competencias adquiridas:</h4>
+                <ul class="bullet-list" style="color: rgba(255,255,255,0.9);">
+                    <li>Diseño y configuración de proyectos RedCap seguros</li>
+                    <li>Creación de instrumentos de recolección validados</li>
+                    <li>Gestión eficiente de datos y participantes</li>
+                    <li>Integración de IA para análisis avanzado</li>
+                    <li>Desarrollo de dashboards y reportes automáticos</li>
+                    <li>Implementación de modelos predictivos en salud</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showModule(moduleId) {
+            // Ocultar todos los módulos
+            const modules = document.querySelectorAll('.module');
+            modules.forEach(module => {
+                module.classList.remove('active');
+            });
+            
+            // Mostrar módulo seleccionado
+            document.getElementById(moduleId).classList.add('active');
+            
+            // Actualizar botones de navegación
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Scroll al top
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
